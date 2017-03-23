@@ -1,10 +1,13 @@
 class Node {
   PVector pos;
-  float growthRate;
+  float growthRate = .525;
+  float growthDamping = .955;
+  float growth = 0;
   float speed;
   float radius;
   float radiusMin, radiusMax;
   int id;
+  boolean isShrinkable = false;
 
   Node() {
   }
@@ -21,15 +24,24 @@ class Node {
   }
 
   void grow() {
-    radius += growthRate;
+    growth += growthRate;
+  }
+  void shrink(){
+    if (isShrinkable){
+     growth *=.25;
+    }
   }
 
   void display() {
+    if (isShrinkable){
+      growth *= growthDamping;
+     }
     pushMatrix();
     translate(pos.x, pos.y);
-    scale(radius);
+    scale(radius+growth);
     ellipse(0, 0, 1, 1);
     popMatrix();
+    
   }
   
   boolean isHit(PVector mouse){

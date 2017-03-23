@@ -2,7 +2,7 @@ class NodeCollection {
   int nodeCount;
   ArrayList<Node> nodes = new ArrayList<Node>();
   PVector position, dimension;
-  
+
   float mx, my;
   PVector mouse;
 
@@ -27,9 +27,12 @@ class NodeCollection {
     for (int i=0; i<nodeCount; i++) {
       Node n = nodes.get(i);
       n.display();
-      
-      if(n.isHit(mouse)){
-        println(n.id);
+
+      if (n.isHit(mouse)) {
+        n.isShrinkable = false;
+        n.grow();
+      } else {
+        n.isShrinkable = true;
       }
     }
   }
@@ -38,8 +41,8 @@ class NodeCollection {
     noFill();
     rect(position.x, position.y, dimension.x, dimension.y);
   }
-  
-  void setMouseEvents(float mx, float my){
+
+  void setMouseEvents(float mx, float my) {
     this.mx = mx;
     this.my = my;
     mouse = new PVector(mx, my);
